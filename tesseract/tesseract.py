@@ -20,21 +20,13 @@ def process_first_image(img_path):
     return img
 
 def process_second_image(img_path):
-    img = Image.open(img_path).convert('L')
+    img = Image.open(img_path)
+    img = img.convert('L')  
     enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(2.0)
-    img_np = np.array(img)
-    binary = (img_np < 120).astype(np.uint8) * 255
-    kernel = np.ones((1, 10), dtype=np.uint8)
-    conv = convolve(binary, kernel, mode='constant', cval=0)
-    line_areas = conv > (255 * 10)
-    cleaned_np = img_np.copy()
-    cleaned_np[line_areas] = 255
-    cleaned_img = Image.fromarray(cleaned_np)
-    cleaned_img = cleaned_img.filter(ImageFilter.MedianFilter(size=3))
+    img = enhancer.enhance(2.0) 
     threshold = 150
-    cleaned_img = cleaned_img.point(lambda x: 0 if x < threshold else 255, '1')
-    return cleaned_img
+    img = img.point(lambda x: 0 if x < threshold else 255, '1')
+    return img 
 
 def process_third_image(img_path):
     img = Image.open(img_path)
@@ -59,13 +51,3 @@ text3 = pytesseract.image_to_string(img3, config=config_img3)
 #print(f'Extracted text from {first_img_name}:\n{text1}\n---------------\n')
 print(f'Extracted text from {second_img_name}:\n{text2}\n---------------\n')
 #print(f'Extracted text from {third_img_name}:\n{text3}\n---------------\n')
-'''
-def process_second_image(img_path):
-    img = Image.open(img_path)
-    img = img.convert('L')  
-    enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(2.0) 
-    threshold = 150
-    img = img.point(lambda x: 0 if x < threshold else 255, '1')
-    return img 
-'''
