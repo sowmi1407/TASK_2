@@ -2,8 +2,7 @@ import pytesseract
 from pathlib import Path
 from PIL import Image, ImageFilter
 from PIL import ImageEnhance
-import numpy as np
-from scipy.ndimage import convolve
+
 
 img_dir = Path('../') 
 
