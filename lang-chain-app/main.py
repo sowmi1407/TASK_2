@@ -16,7 +16,7 @@ for i, (text, res) in enumerate(zip(ocr_texts, results)):
     print("Summary:", res['summary'])
     print("Entities:", res['entities'])
 
-# Optional interaction
+
 model = ChatGroq(model="llama3-8b-8192")
 chat_history = []
 
